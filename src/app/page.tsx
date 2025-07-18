@@ -23,8 +23,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { fonts } from "./fonts";
+import { fonts as initialFonts } from "./fonts";
 import { initialTextElement } from "@/lib/utils";
+import FontUploader from "./components/FontUploader";
 
 interface TextElement {
   id: string;
@@ -292,6 +293,16 @@ const ThumbnailCreator = () => {
   };
 
   const selectedText = textElements.find((t) => t.id === selectedTextId);
+
+  // Store fonts in state (allows dynamic addition of new fonts)
+  const [fonts, setFonts] = useState<{ [key: string]: string }>(initialFonts);
+
+  const handleFontLoaded = (fontKey: string, fontFamily: string) => {
+    setFonts((prev) => ({
+      ...prev,
+      [fontKey]: fontFamily,
+    }));
+  };
 
   const resetTextElements = () => {
     const defaultText: TextElement = {
@@ -705,6 +716,7 @@ const ThumbnailCreator = () => {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col gap-2">
                           <Label htmlFor="font">Font</Label>
+
                           <Select
                             value={selectedText.font}
                             onValueChange={(value: string) => {
@@ -722,12 +734,33 @@ const ThumbnailCreator = () => {
                               <SelectValue placeholder="Select" />
                             </SelectTrigger>
                             <SelectContent position="popper">
-                              {Object.entries(fonts).map(([key, _]) => (
-                                <SelectItem key={key} value={key}>
-                                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                                </SelectItem>
-                              ))}
+                              {/* Custom uploaded fonts at top, default fonts below */}
+                              {Object.entries(fonts)
+                                .filter(([key]) => !(key in initialFonts))
+                                .map(([key, value]) => (
+                                  <SelectItem
+                                    style={{ fontFamily: value }}
+                                    key={key}
+                                    value={key}
+                                  >
+                                    <span style={{ fontFamily: value }}>
+                                      {key}
+                                    </span>
+                                  </SelectItem>
+                                ))}
+                              {Object.entries(fonts)
+                                .filter(([key]) => key in initialFonts)
+                                .map(([key, value]) => (
+                                  <SelectItem
+                                    style={{ fontFamily: value }}
+                                    key={key}
+                                    value={key}
+                                  >
+                                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                                  </SelectItem>
+                                ))}
                             </SelectContent>
+                            <FontUploader onFontLoaded={handleFontLoaded} />
                           </Select>
                         </div>
 
