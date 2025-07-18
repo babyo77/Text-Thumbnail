@@ -10,7 +10,7 @@ export const initialTextElement = {
   text: "POV",
   x: 50,
   y: 50,
-  fontSize: 300,
+  fontSize: 500,
   opacity: 1,
   font: "arial",
   color: "rgba(255, 255, 255, 1)",

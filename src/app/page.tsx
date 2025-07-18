@@ -99,10 +99,18 @@ const ThumbnailCreator = () => {
     const bgImg = new Image();
 
     bgImg.onload = () => {
-      canvas.width = bgImg.width;
-      canvas.height = bgImg.height;
+      // Set fixed large canvas dimensions
+      canvas.width = 3840;
+      canvas.height = 2160;
 
-      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+      // Draw background image scaled to fit canvas while maintaining aspect ratio
+      const scale = Math.min(
+        canvas.width / bgImg.width,
+        canvas.height / bgImg.height,
+      );
+      const x = (canvas.width - bgImg.width * scale) / 2;
+      const y = (canvas.height - bgImg.height * scale) / 2;
+      ctx.drawImage(bgImg, x, y, bgImg.width * scale, bgImg.height * scale);
 
       // Draw each text element
       textElements.forEach((textElement) => {
@@ -145,7 +153,14 @@ const ThumbnailCreator = () => {
 
       const fgImg = new Image();
       fgImg.onload = () => {
-        ctx.drawImage(fgImg, 0, 0, canvas.width, canvas.height);
+        // Draw foreground image with the same scaling as background
+        const scale = Math.min(
+          canvas.width / fgImg.width,
+          canvas.height / fgImg.height,
+        );
+        const x = (canvas.width - fgImg.width * scale) / 2;
+        const y = (canvas.height - fgImg.height * scale) / 2;
+        ctx.drawImage(fgImg, x, y, fgImg.width * scale, fgImg.height * scale);
       };
 
       fgImg.src = processedImageSrc;
@@ -381,11 +396,13 @@ const ThumbnailCreator = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col max-w-3xl mx-auto items-center justify-start text-center p-5">
+    <div className="min-h-screen flex flex-col max-w-5xl mx-auto items-center justify-start text-center p-5">
       {imageSrc ? (
         <>
           {loading ? (
-            <ShimmerLoader>Processing image</ShimmerLoader>
+            <div className="mt-15">
+              <ShimmerLoader>Processing image</ShimmerLoader>
+            </div>
           ) : (
             <div className="flex w-full items-start max-md:flex-wrap">
               <div className="my-4 flex w-full flex-col items-start gap-3">
@@ -402,7 +419,7 @@ const ThumbnailCreator = () => {
                 </button>
                 <canvas
                   ref={canvasRef}
-                  className={`max-h-lg h-auto w-full max-w-lg rounded-lg ${
+                  className={`max-h-lg  h-auto w-full max-w-lg rounded-lg ${
                     isDragging ? "cursor-move" : "cursor-default"
                   }`}
                   title={
@@ -416,7 +433,7 @@ const ThumbnailCreator = () => {
                   onClick={handleCanvasClick}
                 ></canvas>
                 <div className=" text-xs  text-start">
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground hidden md:block mb-4">
                     Click on existing text to select and drag it.
                   </p>
                 </div>
@@ -551,7 +568,7 @@ const ThumbnailCreator = () => {
                                 selectedTextId,
                               });
                             }}
-                            max={500}
+                            max={1000}
                             min={10}
                             step={1}
                             className="w-full"
@@ -659,7 +676,7 @@ const ThumbnailCreator = () => {
                             className="w-full"
                           />
                         </div>
-                        <div className="flex flex-col gap-2">
+                        {/* <div className="flex flex-col gap-2">
                           <Label htmlFor="rotation-3d">
                             3D Rotation: {selectedText.rotationY}°
                           </Label>
@@ -682,7 +699,7 @@ const ThumbnailCreator = () => {
                             step={1}
                             className="w-full"
                           />
-                        </div>
+                        </div> */}
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
