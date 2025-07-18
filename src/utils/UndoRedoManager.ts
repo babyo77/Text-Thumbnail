@@ -7,6 +7,15 @@ interface TextElement {
   opacity: number;
   font: string;
   color: string;
+  fontWeight?: number;
+  letterSpacing?: number;
+  rotation?: number;
+  rotationY?: number;
+  textTransform?: "none" | "uppercase" | "lowercase";
+  is3D?: boolean;
+  textAlign?: "left" | "center" | "right";
+  verticalAlign?: "top" | "middle" | "bottom";
+  textShadow?: string;
 }
 
 interface HistoryState {
@@ -103,7 +112,7 @@ class UndoRedoManager {
       undoStack: [...this.undoStack],
       redoStack: [...this.redoStack],
       currentState: { ...this.currentState },
-      isSliding: this.isSliding
+      isSliding: this.isSliding,
     };
   }
 }

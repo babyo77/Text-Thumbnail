@@ -14,4 +14,8 @@ export const initialTextElement = {
   opacity: 1,
   font: "arial",
   color: "rgba(255, 255, 255, 1)",
+  fontWeight: 900,
+  letterSpacing: 0,
+  rotation: 0,
+  rotationY: 0,
 };

@@ -38,6 +38,7 @@ interface TextElement {
   fontWeight?: number;
   letterSpacing?: number;
   rotation?: number;
+  rotationY?: number;
   textTransform?: "none" | "uppercase" | "lowercase";
   is3D?: boolean;
   textAlign?: "left" | "center" | "right";
@@ -115,14 +116,27 @@ const ThumbnailCreator = () => {
             ? fonts[textElement.font as keyof typeof fonts]
             : "arial";
 
-        ctx.font = `bold ${textElement.fontSize}px ${selectFont}`;
+        ctx.font = `${textElement.fontWeight || 400} ${textElement.fontSize}px ${selectFont}`;
         ctx.fillStyle = textElement.color;
         ctx.globalAlpha = textElement.opacity;
 
         const x = (canvas.width * textElement.x) / 100;
         const y = (canvas.height * textElement.y) / 100;
 
-        ctx.fillText(textElement.text, x, y);
+        // Apply transformations
+        ctx.translate(x, y);
+        if (textElement.rotation) {
+          ctx.rotate((textElement.rotation * Math.PI) / 180);
+        }
+        if (textElement.rotationY) {
+          ctx.scale(Math.cos((textElement.rotationY * Math.PI) / 180), 1);
+        }
+
+        // Apply letter spacing if set
+        if (textElement.letterSpacing) {
+          ctx.letterSpacing = `${textElement.letterSpacing}px`;
+        }
+        ctx.fillText(textElement.text, 0, 0);
 
         // No visual selection indicator
 
@@ -388,7 +402,7 @@ const ThumbnailCreator = () => {
                 </button>
                 <canvas
                   ref={canvasRef}
-                  className={`max-h-xl h-auto w-full max-w-xl rounded-lg ${
+                  className={`max-h-lg h-auto w-full max-w-lg rounded-lg ${
                     isDragging ? "cursor-move" : "cursor-default"
                   }`}
                   title={
@@ -564,6 +578,108 @@ const ThumbnailCreator = () => {
                             max={1}
                             min={0}
                             step={0.1}
+                            className="w-full"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-2">
+                          <Label htmlFor="font-weight">
+                            Font Weight: {selectedText.fontWeight}
+                          </Label>
+                          <Slider
+                            value={[selectedText.fontWeight || 400]}
+                            onValueChange={(value) => {
+                              undoRedoManager.current.startSliding();
+                              updateTextElement(selectedTextId, {
+                                fontWeight: value[0],
+                              });
+                            }}
+                            onValueCommit={() => {
+                              undoRedoManager.current.endSliding({
+                                textElements,
+                                selectedTextId,
+                              });
+                            }}
+                            max={900}
+                            min={100}
+                            step={100}
+                            className="w-full"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <Label htmlFor="letter-spacing">
+                            Letter Spacing: {selectedText.letterSpacing || 0}px
+                          </Label>
+                          <Slider
+                            value={[selectedText.letterSpacing || 0]}
+                            onValueChange={(value) => {
+                              undoRedoManager.current.startSliding();
+                              updateTextElement(selectedTextId, {
+                                letterSpacing: value[0],
+                              });
+                            }}
+                            onValueCommit={() => {
+                              undoRedoManager.current.endSliding({
+                                textElements,
+                                selectedTextId,
+                              });
+                            }}
+                            max={20}
+                            min={-5}
+                            step={0.5}
+                            className="w-full"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-2">
+                          <Label htmlFor="rotation">
+                            Rotation: {selectedText.rotation}°
+                          </Label>
+                          <Slider
+                            value={[selectedText.rotation || 0]}
+                            onValueChange={(value) => {
+                              undoRedoManager.current.startSliding();
+                              updateTextElement(selectedTextId, {
+                                rotation: value[0],
+                              });
+                            }}
+                            onValueCommit={() => {
+                              undoRedoManager.current.endSliding({
+                                textElements,
+                                selectedTextId,
+                              });
+                            }}
+                            max={360}
+                            min={-360}
+                            step={1}
+                            className="w-full"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <Label htmlFor="rotation-3d">
+                            3D Rotation: {selectedText.rotationY}°
+                          </Label>
+                          <Slider
+                            value={[selectedText.rotationY || 0]}
+                            onValueChange={(value) => {
+                              undoRedoManager.current.startSliding();
+                              updateTextElement(selectedTextId, {
+                                rotationY: value[0],
+                              });
+                            }}
+                            onValueCommit={() => {
+                              undoRedoManager.current.endSliding({
+                                textElements,
+                                selectedTextId,
+                              });
+                            }}
+                            max={180}
+                            min={-180}
+                            step={1}
                             className="w-full"
                           />
                         </div>
