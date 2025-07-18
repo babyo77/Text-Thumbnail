@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Text-Thumbnail",
+  title: "Text-in-between",
   description: "Generate beautiful text thumbnails instantly",
   openGraph: {
     title: "Text-Thumbnail",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://us-east-1.tixte.net/uploads/tanmay111-files.tixte.co/gradii-1600x900.png",
+        url: "https://us-east-1.tixte.net/uploads/tanmay111-files.tixte.co/gradii-1920x1080_(1).png",
         width: 1200,
         height: 630,
         alt: "Text-Thumbnail Generator",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: "Text-Thumbnail",
     description: "Generate beautiful text thumbnails instantly",
     images: [
-      "https://us-east-1.tixte.net/uploads/tanmay111-files.tixte.co/gradii-1600x900.png",
+      "https://us-east-1.tixte.net/uploads/tanmay111-files.tixte.co/gradii-1920x1080_(1).png",
     ],
     creator: "@tanmaydesai",
   },
