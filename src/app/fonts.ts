@@ -1,8 +1,6 @@
 import {
   // Original Fonts
-  Inter,
-  Domine,
-  Lora,
+  Inter,Domine,Lora,
   Montserrat,
   Roboto,
   Poppins,
