@@ -25,7 +25,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { fonts as initialFonts } from "./fonts";
 import { initialTextElement } from "@/lib/utils";
-import FontUploader from "./components/FontUploader";
+import FontUploader from "@/components/FontUploader";
 
 interface TextElement {
   id: string;
