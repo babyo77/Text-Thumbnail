@@ -1,4 +1,5 @@
 import {
+  // Original Fonts
   Inter,
   Domine,
   Lora,
@@ -38,8 +39,21 @@ import {
   Courgette,
   Lobster,
   Permanent_Marker,
+  // Added Luxurious & Sleek Fonts
+  Jost,
+  Syne,
+  Tenor_Sans,
+  Manrope,
+  Exo_2,
+  Outfit,
+  Bodoni_Moda,
+  Prata,
+  Cormorant_Garamond,
+  DM_Serif_Display,
+  Taviraj,
 } from "next/font/google";
 
+// --- Original Font Instances ---
 export const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -250,8 +264,73 @@ export const permanentMarker = Permanent_Marker({
   weight: ["400"],
 });
 
+// --- ✨ Added Font Instances ---
+export const jost = Jost({
+  subsets: ["latin"],
+  variable: "--font-jost",
+});
+
+export const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+});
+
+export const tenorSans = Tenor_Sans({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-tenor-sans",
+});
+
+export const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+});
+
+export const exo2 = Exo_2({
+  subsets: ["latin"],
+  variable: "--font-exo-2",
+});
+
+export const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
+
+export const bodoniModa = Bodoni_Moda({
+  subsets: ["latin"],
+  variable: "--font-bodoni-moda",
+});
+
+export const prata = Prata({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-prata",
+});
+
+export const cormorantGaramond = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-cormorant-garamond",
+});
+
+export const dmSerifDisplay = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-dm-serif-display",
+});
+
+export const taviraj = Taviraj({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-taviraj",
+});
+
+
+// --- Final Fonts Object (Updated) ---
 export const fonts = {
+  // System
   arial: "Arial",
+  // Originals
   inter: inter.style.fontFamily,
   domine: domine.style.fontFamily,
   lora: lora.style.fontFamily,
@@ -291,4 +370,16 @@ export const fonts = {
   courgette: courgette.style.fontFamily,
   lobster: lobster.style.fontFamily,
   permanentMarker: permanentMarker.style.fontFamily,
+  // Added
+  jost: jost.style.fontFamily,
+  syne: syne.style.fontFamily,
+  tenorSans: tenorSans.style.fontFamily,
+  manrope: manrope.style.fontFamily,
+  exo2: exo2.style.fontFamily,
+  outfit: outfit.style.fontFamily,
+  bodoniModa: bodoniModa.style.fontFamily,
+  prata: prata.style.fontFamily,
+  cormorantGaramond: cormorantGaramond.style.fontFamily,
+  dmSerifDisplay: dmSerifDisplay.style.fontFamily,
+  taviraj: taviraj.style.fontFamily,
 };
