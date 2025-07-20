@@ -100,18 +100,10 @@ const ThumbnailCreator = () => {
     const bgImg = new Image();
 
     bgImg.onload = () => {
-      // Set fixed large canvas dimensions
-      canvas.width = 3840;
-      canvas.height = 2160;
+      canvas.width = bgImg.width;
+      canvas.height = bgImg.height;
 
-      // Draw background image scaled to fit canvas while maintaining aspect ratio
-      const scale = Math.min(
-        canvas.width / bgImg.width,
-        canvas.height / bgImg.height,
-      );
-      const x = (canvas.width - bgImg.width * scale) / 2;
-      const y = (canvas.height - bgImg.height * scale) / 2;
-      ctx.drawImage(bgImg, x, y, bgImg.width * scale, bgImg.height * scale);
+      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
       // Draw each text element
       textElements.forEach((textElement) => {
@@ -154,14 +146,7 @@ const ThumbnailCreator = () => {
 
       const fgImg = new Image();
       fgImg.onload = () => {
-        // Draw foreground image with the same scaling as background
-        const scale = Math.min(
-          canvas.width / fgImg.width,
-          canvas.height / fgImg.height,
-        );
-        const x = (canvas.width - fgImg.width * scale) / 2;
-        const y = (canvas.height - fgImg.height * scale) / 2;
-        ctx.drawImage(fgImg, x, y, fgImg.width * scale, fgImg.height * scale);
+        ctx.drawImage(fgImg, 0, 0, canvas.width, canvas.height);
       };
 
       fgImg.src = processedImageSrc;
