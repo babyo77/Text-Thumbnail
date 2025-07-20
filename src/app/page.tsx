@@ -26,6 +26,7 @@ import { Slider } from "@/components/ui/slider";
 import { fonts as initialFonts } from "./fonts";
 import { initialTextElement } from "@/lib/utils";
 import FontUploader from "@/components/FontUploader";
+import { ColorPicker } from "@/components/ColorPicker";
 
 interface TextElement {
   id: string;
@@ -701,7 +702,6 @@ const ThumbnailCreator = () => {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col gap-2">
                           <Label htmlFor="font">Font</Label>
-
                           <Select
                             value={selectedText.font}
                             onValueChange={(value: string) => {
@@ -748,30 +748,15 @@ const ThumbnailCreator = () => {
                             <FontUploader onFontLoaded={handleFontLoaded} />
                           </Select>
                         </div>
-
-                        <div className="flex flex-col gap-2 w-20">
+                        <div className="flex flex-col gap-2 w-32">
                           <Label htmlFor="color">Text Color</Label>
-                          <Input
-                            type="color"
-                            value={
-                              selectedText.color.includes("rgba")
-                                ? "#ffffff"
-                                : selectedText.color
-                            }
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => {
+                          <ColorPicker
+                            value={selectedText.color.startsWith('#') ? selectedText.color : '#ffffff'}
+                            onChange={(color) => {
                               undoRedoManager.current.startSliding();
-                              updateTextElement(selectedTextId, {
-                                color: e.target.value,
-                              });
-                              undoRedoManager.current.endSliding({
-                                textElements,
-                                selectedTextId,
-                              });
+                              updateTextElement(selectedTextId, { color });
+                              undoRedoManager.current.endSliding({ textElements, selectedTextId });
                             }}
-                            className=" border-none shadow-none -ml-2"
-                            id="color"
                           />
                         </div>
                       </div>
